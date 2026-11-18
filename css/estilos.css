@@ -1,0 +1,394 @@
+/* ==========================================================
+   Registro de estudiantes — v2
+   Panel verde con titular a la izquierda, formulario a la derecha
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600&display=swap");
+
+:root {
+    --bosque: #12372a;
+    --bosque-2: #1b4d3a;
+    --hoja: #39a900;
+    --hoja-oscuro: #2b8300;
+    --menta: #d9efc8;
+    --papel: #fbfaf6;
+    --fondo: #e3ebdc;
+    --tinta: #17211c;
+    --tinta-suave: #66726b;
+    --borde: #d6ddd1;
+    --error: #c23b2e;
+    --error-fondo: #fdf1ef;
+
+    --fuente-titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --fuente-texto: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem;
+    background:
+        radial-gradient(900px 500px at 10% -10%, #f2f7ec 0%, transparent 60%),
+        radial-gradient(700px 500px at 100% 110%, #cfe0c4 0%, transparent 60%),
+        var(--fondo);
+    color: var(--tinta);
+    font-family: var(--fuente-texto);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ==========================================================
+   Tarjeta principal: 2 columnas
+   ========================================================== */
+main {
+    position: relative;
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr) 1.6fr;
+    grid-template-rows: auto 1fr;
+    background: var(--papel);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow:
+        0 2px 4px rgba(18, 55, 42, 0.06),
+        0 24px 60px rgba(18, 55, 42, 0.18);
+}
+
+/* Panel izquierdo (fondo con anillos concéntricos) */
+main::before {
+    content: "";
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    background:
+        radial-gradient(circle at 0% 100%, transparent 0 120px, rgba(57, 169, 0, 0.35) 121px 123px, transparent 124px),
+        radial-gradient(circle at 0% 100%, transparent 0 200px, rgba(57, 169, 0, 0.22) 201px 203px, transparent 204px),
+        radial-gradient(circle at 0% 100%, transparent 0 280px, rgba(57, 169, 0, 0.14) 281px 283px, transparent 284px),
+        radial-gradient(circle at 100% 0%, rgba(57, 169, 0, 0.45) 0%, transparent 55%),
+        linear-gradient(160deg, var(--bosque-2) 0%, var(--bosque) 70%);
+}
+
+h1,
+main > p {
+    grid-column: 1;
+    position: relative;      /* para quedar sobre el ::before */
+    padding-left: 2.75rem;
+    padding-right: 2.25rem;
+}
+
+h1 {
+    grid-row: 1;
+    margin: 0;
+    padding-top: 3.25rem;
+    color: #fff;
+    font-family: var(--fuente-titulo);
+    font-size: clamp(2.2rem, 4.2vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+}
+
+main > p {
+    grid-row: 2;
+    align-self: start;
+    margin: 1.25rem 0 0;
+    padding-bottom: 3rem;
+    color: var(--menta);
+    font-size: 1.02rem;
+    max-width: 30ch;
+}
+
+/* ==========================================================
+   Formulario
+   ========================================================== */
+form {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem 1.25rem;
+    padding: 3rem 3rem 2.75rem;
+    align-content: start;
+}
+
+.grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.grupo:has(#programa),
+.terminos,
+#btnRegistrar,
+#mensajeFinal {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--bosque);
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.78rem 0.95rem;
+    font: inherit;
+    color: var(--tinta);
+    background: #fff;
+    border: 1.5px solid var(--borde);
+    border-radius: 12px;
+    transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+}
+
+input:hover,
+select:hover {
+    border-color: #b9c4b3;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--hoja);
+    box-shadow: 0 0 0 4px rgba(57, 169, 0, 0.18);
+}
+
+select {
+    appearance: none;
+    padding-right: 2.75rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%2312372a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ---------- Errores ---------- */
+small {
+    display: block;
+    min-height: 1.05rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--error);
+}
+
+input.error,
+select.error {
+    border-color: var(--error);
+    background-color: var(--error-fondo);
+}
+
+input.error:focus,
+select.error:focus {
+    box-shadow: 0 0 0 4px rgba(194, 59, 46, 0.16);
+}
+
+/* ---------- Válido (check verde dentro del input) ---------- */
+input.valido {
+    border-color: var(--hoja);
+    padding-right: 2.6rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5 6.5 12 13 4.5' fill='none' stroke='%2339a900' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+}
+
+select.valido {
+    border-color: var(--hoja);
+}
+
+/* ---------- Términos ---------- */
+.terminos {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 0.7rem;
+    padding: 0.85rem 1rem;
+    background: #f1f6ec;
+    border-radius: 12px;
+}
+
+.terminos input[type="checkbox"] {
+    appearance: none;
+    flex: none;
+    order: -1;
+    width: 1.3rem;
+    height: 1.3rem;
+    padding: 0;
+    margin: 0;
+    border-radius: 6px;
+    border: 1.5px solid #a9b8a1;
+    background: #fff;
+    cursor: pointer;
+}
+
+.terminos input[type="checkbox"]:checked {
+    background-color: var(--hoja);
+    border-color: var(--hoja);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7.5 5.5 10.5 11.5 3.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.terminos label {
+    font-weight: 500;
+    color: var(--tinta);
+    cursor: pointer;
+}
+
+.terminos small {
+    flex-basis: 100%;
+    min-height: 0;
+}
+
+.terminos small:not(:empty) {
+    margin-top: 0.15rem;
+}
+
+/* ---------- Botón ---------- */
+button {
+    margin-top: 0.35rem;
+    padding: 1rem 1.5rem;
+    font: inherit;
+    font-family: var(--fuente-titulo);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #fff;
+    background: var(--bosque);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(18, 55, 42, 0.25);
+    transition: background-color 0.18s, transform 0.12s, box-shadow 0.18s;
+}
+
+button:hover {
+    background: var(--hoja-oscuro);
+    box-shadow: 0 10px 24px rgba(43, 131, 0, 0.35);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(18, 55, 42, 0.25);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--hoja);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    background: var(--borde);
+    color: var(--tinta-suave);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* ---------- Mensaje final ---------- */
+#mensajeFinal {
+    margin: 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+#mensajeFinal:not(:empty) {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: var(--menta);
+    color: var(--bosque);
+}
+
+#mensajeFinal.error:not(:empty) {
+    background: var(--error-fondo);
+    color: var(--error);
+}
+
+/* ==========================================================
+   Responsive
+   ========================================================== */
+@media (max-width: 880px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        border-radius: 22px;
+    }
+
+    /* El panel pasa a ser una cabecera: lo pintamos en h1 y p */
+    main::before {
+        display: none;
+    }
+
+    h1,
+    main > p {
+        grid-column: 1;
+        padding-left: 1.75rem;
+        padding-right: 1.75rem;
+        background: linear-gradient(160deg, var(--bosque-2), var(--bosque));
+    }
+
+    h1 {
+        padding-top: 2.25rem;
+    }
+
+    main > p {
+        margin: 0;
+        padding-top: 0.9rem;
+        padding-bottom: 2rem;
+        max-width: none;
+    }
+
+    form {
+        grid-column: 1;
+        grid-row: 3;
+        padding: 2rem 1.75rem 2rem;
+    }
+}
+
+@media (max-width: 560px) {
+    body {
+        padding: 0;
+        place-items: stretch;
+    }
+
+    main {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+        padding: 1.75rem 1.25rem;
+    }
+
+    h1,
+    main > p {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
